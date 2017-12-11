@@ -139,9 +139,9 @@ next_del_blksize:
 		}
 
 		/* If we have processed at least one full block (initially, prev_del == 1),
-					 and we did so without deleting the previous one, and we aren't at the
-		       very end of the buffer (tailLen > 0), and the current block is the same
-		       as the previous one... skip this step as a no-op. */
+		   and we did so without deleting the previous one, and we aren't at the
+		   very end of the buffer (tailLen > 0), and the current block is the same
+		   as the previous one... skip this step as a no-op. */
 		if !prevDel && tailLen > 0 && !bytes.Equal(m.in[delPos-delLen:delPos], m.in[delPos:delPos+delLen]) {
 			delPos += delLen
 			continue
