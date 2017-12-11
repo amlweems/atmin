@@ -7,12 +7,11 @@ validation check. Included in the `cmd/` directory are a few examples of using
 
 ## `hatmin`
 
-The first example of `atmin`, an network request minimization program, allows
-users to provide a single network request (e.g. an HTTP request) and receive a
-minimized payload which generally returns the same output. Validation is
-performed using string matching, requiring the user to provide a sample string
-which should be returned by the server when the payload succeeds. An example is
-shown below.
+The first example of `atmin`, an HTTP request minimization program, allows
+users to provide a single HTTP request and receive a minimized payload which
+generally returns the same output. Validation is performed using string
+matching, requiring the user to provide a sample string which should be returned
+by the server when the payload succeeds. An example is shown below.
 
 ```bash
 $ cat req.txt
@@ -28,6 +27,8 @@ Content-Type: application/json; charset=utf-8
 Accept-Language: en-US,en;q=0.9
 Cookie: _ga=GA1.2.1953734269.1506457661; _gid=GA1.2.593597176.1512947963; _gat=1
 
+$ hatmin -request req.txt -url http://example.org -dry-run | grep '<h1>'
+    <h1>Example Domain</h1>
 $ hatmin -request req.txt -url http://example.org -needle 'Example Domain'
 2017/12/10 20:05:46 Stage 0: Block Normalization
 2017/12/10 20:05:46 Stage 1: Block Deletion
