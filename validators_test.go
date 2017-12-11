@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"strings"
+	"net/url"
 	"testing"
 )
 
-func TestNetMinimizer(t *testing.T) {
-	ts := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+func TestHTTPMinimizer(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Header.Get("Content-Type") != "application/json" {
 			fmt.Fprintln(w, `{"error":"invalid content type"}`)
 			return
@@ -29,9 +29,6 @@ func TestNetMinimizer(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	// httptest.Server returns URLs in the form https://127.0.0.1:1234
-	addr := strings.Split(ts.URL, "//")[1]
-
 	// large request body with extraneous content
 	in := []byte(`GET /api/v1/examples/http HTTP/1.1
 Host: api.example.org
@@ -48,7 +45,11 @@ Accept-Language: en-US,en;q=0.9
 Cookie: __stripe_mid=fa7d36a5-7148-41f2-89cb-e798f76eabfe; __qca=P0-1719821274-1506457757963; signin_return_url=%252F; atk_token=VmKG63mFuFCtjR2ZAnlWTmu3HO2zjvpaQt1UR8KRmPI; _ga=GA1.2.1953734269.1506457661; _gid=GA1.2.593597176.1512947963; _gat=1
 
 `)
-	m := NewMinimizer(in).ExecuteNet(addr, true).ValidateString(`"username":"admin"`)
+	url, err := url.Parse(ts.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	m := NewMinimizer(in).ExecuteHTTP(url).ValidateString(`"username":"admin"`)
 	min := m.Minimize()
 
 	t.Logf("minimized request: %s", min)

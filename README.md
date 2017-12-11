@@ -28,19 +28,18 @@ Content-Type: application/json; charset=utf-8
 Accept-Language: en-US,en;q=0.9
 Cookie: _ga=GA1.2.1953734269.1506457661; _gid=GA1.2.593597176.1512947963; _gat=1
 
-$ hatmin -request req.txt -addr example.org:80 -tls=false -needle 'Example Domain'
-2017/12/10 19:29:04 Stage 0: Block Normalization
-2017/12/10 19:29:05 Stage 1: Block Deletion
-2017/12/10 19:29:12 Stage 2: Alphabet Minimization
-2017/12/10 19:29:12 Stage 3: Character Minimization
-2017/12/10 19:29:12 Stage 1: Block Deletion
-2017/12/10 19:29:13 Stage 2: Alphabet Minimization
-2017/12/10 19:29:13 Stage 3: Character Minimization
-2017/12/10 19:29:14 Stage 1: Block Deletion
-2017/12/10 19:29:14 Stage 2: Alphabet Minimization
-2017/12/10 19:29:14 Stage 3: Character Minimization
-GET / HTTP/1.0
-Host: example.org
+$ hatmin -request req.txt -url http://example.org -needle 'Example Domain'
+2017/12/10 20:05:46 Stage 0: Block Normalization
+2017/12/10 20:05:46 Stage 1: Block Deletion
+2017/12/10 20:05:49 Stage 2: Alphabet Minimization
+2017/12/10 20:05:49 Stage 3: Character Minimization
+2017/12/10 20:05:49 Stage 1: Block Deletion
+2017/12/10 20:05:52 Stage 2: Alphabet Minimization
+2017/12/10 20:05:52 Stage 3: Character Minimization
+2017/12/10 20:05:52 Stage 1: Block Deletion
+2017/12/10 20:05:52 Stage 2: Alphabet Minimization
+2017/12/10 20:05:53 Stage 3: Character Minimization
+GET / HTTP/0.0
 0:0
 
 
