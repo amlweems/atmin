@@ -62,6 +62,10 @@ func memset(a []byte, v byte) {
 	}
 }
 
+func (m Minimizer) Execute(in []byte) []byte {
+	return m.ex.Execute(in)
+}
+
 func (m Minimizer) Minimize() []byte {
 	// minimization algorithm adapted from afl-tmin by lcamtuf
 	// see: http://lcamtuf.coredump.cx/afl

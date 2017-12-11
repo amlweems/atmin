@@ -61,8 +61,7 @@ Cookie: __stripe_mid=fa7d36a5-7148-41f2-89cb-e798f76eabfe; __qca=P0-1719821274-1
 	}
 	t.Logf("minimized request: %s", min)
 
-	ex := HTTPExecutor{Addr: addr, TLS: false}
-	out := ex.Execute(min)
+	out := m.Execute(min)
 	if !bytes.Contains(out, []byte(`"username":"admin"`)) {
 		t.Errorf("output did not match: %s", out)
 	}

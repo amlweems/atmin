@@ -26,14 +26,14 @@ func main() {
 		log.Fatal(err)
 	}
 
+	m := atmin.NewMinimizer(in).ExecuteHTTP(*addrFlag, *tlsFlag).ValidateString(*needleFlag)
+
 	if *dryRunFlag {
-		ex := atmin.HTTPExecutor{Addr: *addrFlag, TLS: *tlsFlag}
-		out := ex.Execute(in)
+		out := m.Execute(in)
 		os.Stdout.Write(out)
 		return
 	}
 
-	m := atmin.NewMinimizer(in).ExecuteHTTP(*addrFlag, *tlsFlag).ValidateString(*needleFlag)
 	min := m.Minimize()
 
 	os.Stdout.Write(min)
