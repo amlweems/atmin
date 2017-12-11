@@ -1,6 +1,7 @@
 package atmin
 
 import (
+	"bytes"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -55,8 +56,14 @@ Cookie: __stripe_mid=fa7d36a5-7148-41f2-89cb-e798f76eabfe; __qca=P0-1719821274-1
 	m := NewMinimizer(in).ExecuteHTTP(addr, false).ValidateString(`"username":"admin"`)
 	min := m.Minimize()
 
+	if len(min) > len(in)/4 {
+		t.Error("minimized request not small enough")
+	}
 	t.Logf("minimized request: %s", min)
 
 	ex := HTTPExecutor{Addr: addr, TLS: false}
-	t.Logf("response: %s", ex.Execute(min))
+	out := ex.Execute(min)
+	if !bytes.Contains(out, []byte(`"username":"admin"`)) {
+		t.Errorf("output did not match: %s", out)
+	}
 }
